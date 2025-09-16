@@ -1,6 +1,6 @@
 {
-  "name": "smg/module-mock-data-generator",
-  "description": "SMG Mock Data Generator module for Magento 2",
+  "name": "supravatm/module-mock-data-generator",
+  "description": "A Magento 2 module that generates mock data (products, orders, customers) with GraphQL support.",
   "type": "magento2-module",
   "version": "1.0.0",
   "license": [
@@ -10,12 +10,19 @@
   "authors": [
     {
       "name": "Supravat Mondal",
-      "email": "supravat.com@email.com"
+      "email": "supravat.com@email.com",
+      "homepage": "https://github.com/supravat", 
+      "role": "Developer"
     }
   ],
   "require": {
-    "php": ">=7.4",
-    "magento/framework": "103.*"
+    "php": ">=7.4 <9.0",
+    "magento/framework": "103.*",
+    "magento/module-backend": "*",
+    "magento/module-ui": "*",
+    "magento/module-store": "*",
+    "magento/module-catalog": "*",
+    "fakerphp/faker": "^1.21"
   },
   "autoload": {
     "files": [
@@ -24,5 +31,21 @@
     "psr-4": {
       "SMG\\MockDataGenerator\\": ""
     }
-  }
+  },
+  "extra": {
+    "map": [
+      [
+        "*",
+        "SMG/MockDataGenerator"
+      ]
+    ]
+  },
+  "keywords": [
+    "magento2",
+    "graphql",
+    "mock-data",
+    "orders",
+    "products",
+    "customers"
+  ]
 }

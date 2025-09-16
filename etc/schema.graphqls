@@ -1,0 +1,181 @@
+# schema.graphqls - defines queries and types for this module
+schema {
+  query: Query
+}
+
+type Query {
+  # Simple example - returns a string greeting
+  hello(name: String): String
+    @resolver(class: "SMG\\MockDataGenerator\\Model\\Resolver\\Hello")
+    @doc(description: "Return a greeting message.")
+
+    # Product
+    MockDataProduct(
+        numberOfItems: Int! @doc(description: "Number of items to be generate.")
+    ): MockDataProductResults
+    @resolver(class: "SMG\\MockDataGenerator\\Model\\Resolver\\MockData")
+    @doc(description: "Return a list of Fake Product.")
+  
+
+    # Order
+    MockDataOrder(
+        numberOfItems: Int!
+    ): MockDataOrderResults
+    @resolver(class: "SMG\\MockDataGenerator\\Model\\Resolver\\MockData")
+    @doc(description: "Return a list of Fake Order.")
+    
+    # Customer.
+    MockDataCustomer(
+        numberOfItems: Int!
+    ): MockDataCustomerResults
+    @resolver(class: "SMG\\MockDataGenerator\\Model\\Resolver\\MockData")
+    @doc(description: "Return a list of Fake Customer.")
+}
+
+type MockDataProductResults {
+    total_count: Int
+    items: [MockDataProductItem]
+}
+
+type MockDataProductItem {
+    entity_id: Int
+    sku: String
+    name: String
+    price: Float
+    status: Int
+    visibility: Int
+    type_id: String
+    created_at: String
+    updated_at: String
+    weight: Float
+}
+
+type MockDataOrderResults {
+    total_count: Int
+    items: [MockDataOrderItem]
+}
+
+type MockDataCustomerResults {
+    total_count: Int
+    items: [MockDataCustomerItem]
+}
+
+type MockDataCustomerItem {
+    id: Int
+    group_id: Int
+    default_billing: Int
+    default_shipping: Int
+    created_at: String
+    updated_at: String
+    created_in: String
+    email: String
+    firstname: String
+    lastname: String
+    store_id: Int
+    website_id: Int
+    disable_auto_group_change: Int
+    addresses: [MockDataCustomerAddress]
+    disable_auto_group_change: Int
+    testAddress: [String]
+}
+
+type MockDataCustomerAddress{
+    id: Int
+    customer_id: Int
+    country_id: String
+    telephone: String
+    postcode: String
+    street: [String]
+    region: [String]
+    city: String
+    default_shipping: Boolean
+    default_billing: Boolean
+}
+
+
+"""
+Represents a single order
+"""
+type MockDataOrderItem {
+  entity_id: Int
+  increment_id: String
+  state: String
+  status: String
+  grand_total: Float
+  base_grand_total: Float
+  subtotal: Float
+  base_subtotal: Float
+  discount_amount: Float
+  tax_amount: Float
+  shipping_amount: Float
+  order_currency_code: String
+  base_currency_code: String
+  customer_id: Int
+  customer_email: String
+  customer_firstname: String
+  customer_lastname: String
+  customer_is_guest: Boolean
+  created_at: String
+  updated_at: String
+  total_item_count: Int
+
+  items: [OrderItem]
+  billing_address: OrderAddress
+  payment: OrderPayment
+  status_histories: [OrderStatusHistory]
+}
+
+"""
+Represents a single order item
+"""
+type OrderItem {
+  item_id: Int
+  sku: String
+  name: String
+  product_id: Int
+  qty_ordered: Int
+  price: Float
+  base_price: Float
+  row_total: Float
+  base_row_total: Float
+  tax_amount: Float
+  base_tax_amount: Float
+  price_incl_tax: Float
+  base_price_incl_tax: Float
+  row_total_incl_tax: Float
+  base_row_total_incl_tax: Float
+}
+
+"""
+Represents a customer address
+"""
+type OrderAddress {
+  firstname: String
+  lastname: String
+  street: [String]
+  city: String
+  region: String
+  region_code: String
+  postcode: String
+  country_id: String
+  telephone: String
+  email: String
+}
+
+"""
+Represents a payment method
+"""
+type OrderPayment {
+  method: String
+  amount_paid: Float
+  amount_ordered: Float
+}
+
+"""
+Represents order status history
+"""
+type OrderStatusHistory {
+  comment: String
+  created_at: String
+  status: String
+}

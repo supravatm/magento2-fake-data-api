@@ -23,18 +23,19 @@ Useful when:
 
 1. Clone this repository inside `app/code/`:
 
-  #### Composer
+    #### Composer
     ```bash
-    composer require --dev supravatm/module-mock-data-generator
-    bin/magento module:enable Supravatm_MockDataGenerator
-    bin/magento setup:upgrade
-  ```
-  #### Manual
-   ```bash
-   mkdir -p app/code/SMG
-   cd app/code/SMG
-   git clone https://github.com/supravatm/magento2-fake-data-api.git MockDataGenerator
-   ```
+      composer require --dev supravatm/module-mock-data-generator
+      bin/magento module:enable Supravatm_MockDataGenerator
+      bin/magento setup:upgrade
+    ```
+  
+    #### Manual
+    ```bash
+    mkdir -p app/code/SMG
+    cd app/code/SMG
+    git clone https://github.com/supravatm/magento2-fake-data-api.git MockDataGenerator
+    ```
 
 2. Enable the module:
 

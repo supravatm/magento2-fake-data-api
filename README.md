@@ -336,6 +336,12 @@ POST /rest/V1/mockdata/generate
 
 ## 📝 License
 
-MIT License. Feel free to fork, modify, and share.
+This repository is licensed under the [MIT License](https://opensource.org/licenses/MIT). Feel free to fork, modify, and share.
+
+---
+
+&copy; 2025 Supravat Mondal. All rights reserved.
+
+
 
 

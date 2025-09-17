@@ -18,6 +18,9 @@
     "magento/framework": "^103",
     "fakerphp/faker": "^1.21"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^10.5"
+  },
   "minimum-stability": "dev",
   "prefer-stable": true,
   "autoload": {
@@ -46,6 +49,9 @@
     "data-faker",
     "orders",
     "products",
-    "customers"
+    "customers",
+    "dev-tools",
+    "testing",
+    "development-only"
   ]
 }

@@ -18,6 +18,8 @@
     "magento/framework": "^103",
     "fakerphp/faker": "^1.21"
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "autoload": {
     "files": [
       "registration.php"

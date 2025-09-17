@@ -1,27 +1,22 @@
 {
-  "name": "supravatm/module-mock-data-generator",
-  "description": "A Magento 2 module that generates mock data (products, orders, customers) with GraphQL support.",
+  "name": "supravatm/magento2-module-fake-data-api",
+  "description": "A lightweight and non-intrusive(no DB bloat unless you extend it to save) Magento 2 module to generate fake customers, products, and orders via GraphQL & REST APIs.",
   "type": "magento2-module",
   "version": "1.0.0",
   "license": [
-    "OSL-3.0",
-    "AFL-3.0"
-  ],
+        "MIT"
+    ],
   "authors": [
     {
       "name": "Supravat Mondal",
       "email": "supravat.com@email.com",
-      "homepage": "https://github.com/supravat", 
+      "homepage": "https://github.com/supravatm", 
       "role": "Developer"
     }
   ],
   "require": {
-    "php": ">=7.4 <9.0",
-    "magento/framework": "103.*",
-    "magento/module-backend": "*",
-    "magento/module-ui": "*",
-    "magento/module-store": "*",
-    "magento/module-catalog": "*",
+    "php": "^7||^8",
+    "magento/framework": "^103",
     "fakerphp/faker": "^1.21"
   },
   "autoload": {
@@ -44,6 +39,10 @@
     "magento2",
     "graphql",
     "mock-data",
+    "test-data",
+    "sample-data",
+    "fake-data",
+    "data-faker",
     "orders",
     "products",
     "customers"

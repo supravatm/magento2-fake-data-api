@@ -1,11 +1,7 @@
 # 🧪 Magento 2 Mock Data Generator (GraphQL + REST API)
 
-[![Magento 2](https://img.shields.io/badge/Magento-2.4-brightgreen.svg)](https://devdocs.magento.com/)
-[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![PHP](https://img.shields.io/badge/PHP-%5E7.4%20%7C%5E8.1-purple)](https://www.php.net/)
-
-A **developer-friendly Magento 2 module** to generate **fake customers, products, and orders** via **GraphQL & REST APIs**.
-Powered by [FakerPHP](https://fakerphp.github.io/).
+A lightweight and non-intrusive(no DB bloat unless you extend it to save) **developer-friendly Magento 2 module** to generate **fake customers, products, and orders** via **GraphQL & REST APIs**.
+Powered by [FakerPHP](https://fakerphp.org/).
 
 Useful when:  
 ✅ You need quick test data for local/staging development  
@@ -28,15 +24,15 @@ Useful when:
 1. Clone this repository inside `app/code/`:
 
    ```bash
-   mkdir -p app/code/Supravat
-   cd app/code/Supravat
-   git clone https://github.com/yourusername/magento2-mockdata.git MockData
+   mkdir -p app/code/SMG
+   cd app/code/SMG
+   git clone https://github.com/supravatm/magento2-fake-data-api.git MockDataGenerator
    ```
 
 2. Enable the module:
 
    ```bash
-   bin/magento module:enable Supravat_MockData
+   bin/magento module:enable SMG_MockDataGenerator
    bin/magento setup:upgrade
    bin/magento cache:flush
    ```
@@ -57,8 +53,12 @@ POST /rest/V1/mockdata/generate
 
 ```json
 {
-  "entity": "customer",
-  "count": 5
+    "entity": "product",
+    "numberOfItems": 1,
+    "searchCriteria": {
+        "pageSize": 10,
+        "currentPage": 1
+    }
 }
 ```
 
@@ -66,12 +66,67 @@ POST /rest/V1/mockdata/generate
 
 ```json
 {
-  "success": true,
-  "message": "Generated 5 customer(s)",
-  "data": [
-    {"firstname":"John","lastname":"Doe","email":"john.doe@example.com"},
-    {"firstname":"Alice","lastname":"Smith","email":"alice.smith@example.com"}
-  ]
+    "items": [
+        {
+            "entity_id": 1,
+            "sku": "FAKE-8051WX",
+            "name": "Portable Smartphone",
+            "attribute_set_id": 4,
+            "price": 893.19,
+            "status": 1,
+            "visibility": 4,
+            "type_id": "simple",
+            "created_at": "2025-03-02 06:40:17",
+            "updated_at": "2025-09-14 22:45:57",
+            "weight": 1.92,
+            "extension_attributes": {
+                "website_ids": [
+                    1
+                ],
+                "category_links": [
+                    {
+                        "position": 0,
+                        "category_id": "3",
+                        "extension_attributes": {}
+                    }
+                ],
+                "stock_item": {
+                    "item_id": 0,
+                    "product_id": 0,
+                    "stock_id": 1,
+                    "qty": 32,
+                    "is_in_stock": false,
+                    "use_config_manage_stock": true,
+                    "manage_stock": true,
+                    "extension_attributes": {}
+                }
+            },
+            "product_links": [],
+            "options": [],
+            "media_gallery_entries": [],
+            "tier_prices": [],
+            "custom_attributes": [
+                {
+                    "attribute_code": "description",
+                    "value": "High-quality Portable Smartphone with long battery life."
+                },
+                {
+                    "attribute_code": "short_description",
+                    "value": "Stylish portable smartphone available in navy."
+                },
+                {
+                    "attribute_code": "color",
+                    "value": "navy"
+                }
+            ]
+        }
+    ],
+    "search_criteria": {
+        "filter_groups": [],
+        "page_size": 1,
+        "current_page": 1
+    },
+    "total_count": 1
 }
 ```
 
@@ -79,13 +134,22 @@ POST /rest/V1/mockdata/generate
 
 ### ✅ GraphQL
 
-**Mutation:**
+**Query:**
 
 ```graphql
-mutation {
-  generateMockData(entity: "product", count: 3) {
-    success
-    message
+{
+  MockDataProduct(numberOfItems: 1) {
+    items {
+      entity_id
+      name
+      price
+      sku
+      status
+      type_id
+      visibility
+      weight
+    }
+    total_count
   }
 }
 ```
@@ -95,14 +159,153 @@ mutation {
 ```json
 {
   "data": {
-    "generateMockData": {
-      "success": true,
-      "message": "Generated 3 product(s)"
+    "MockDataProduct": {
+      "items": [
+        {
+          "entity_id": 1,
+          "name": "Smart Backpack",
+          "price": 531.97,
+          "sku": "FAKE-0348VS",
+          "status": 1,
+          "type_id": "simple",
+          "visibility": 4,
+          "weight": 4.41
+        }
+      ],
+      "total_count": 1
     }
   }
 }
 ```
+```graphql
+{
+  MockDataCustomer(numberOfItems: 1) {
+    items {
+      addresses
+      {
+        street
+        country_id
+      }
+      id
+      email
+    }
+    total_count
+  }
+}
+```
 
+**Response:**
+
+```json
+{
+  "data": {
+    "MockDataCustomer": {
+      "items": [
+        {
+          "addresses": [
+            {
+              "street": [
+                "23973 Maxime Grove"
+              ],
+              "country_id": "US"
+            },
+            {
+              "street": [
+                "9718 Jonathan Rapid Apt. 836"
+              ],
+              "country_id": "US"
+            }
+          ],
+          "id": 540,
+          "email": "hartmann.dexter@example.net"
+        }
+      ],
+      "total_count": 1
+    }
+  }
+}
+```
+```graphql
+{
+  MockDataOrder(numberOfItems: 1) {
+    items {
+      
+      billing_address {
+        street
+        city
+        country_id
+      }
+      customer_email
+      increment_id
+      grand_total
+      items {
+        sku
+        name
+        qty_ordered
+      }
+      payment {
+        method
+        amount_paid
+      }
+      shipping_amount
+      state
+      status
+      status_histories {
+        comment
+        status
+      }
+    }
+    total_count
+  }
+}
+
+```
+
+**Response:**
+
+```json
+{
+  "data": {
+    "MockDataOrder": {
+      "items": [
+        {
+          "billing_address": {
+            "street": [
+              "4994 Jakubowski Bypass"
+            ],
+            "city": "Port Keatonville",
+            "country_id": "SA"
+          },
+          "customer_email": "queen.osinski@example.net",
+          "increment_id": "427471870",
+          "grand_total": 1533.49,
+          "items": [
+            {
+              "sku": "SKU-668UB",
+              "name": "Ergonomic Laptop",
+              "qty_ordered": 3
+            }
+          ],
+          "payment": {
+            "method": "paypal",
+            "amount_paid": 1533.49
+          },
+          "shipping_amount": 13.93,
+          "state": "closed",
+          "status": "pending",
+          "status_histories": [
+            {
+              "comment": "Package delayed due to carrier issues. Informed customer.",
+              "status": "complete"
+            }
+          ]
+        }
+      ],
+      "total_count": 1
+    }
+  }
+}
+```
 ---
 
 ## ⚙️ Supported Entities
@@ -117,9 +320,9 @@ mutation {
 
 ## 🧑‍💻 Development Notes
 
-* Uses [FakerPHP](https://fakerphp.github.io/) for data generation
+* Uses [FakerPHP](https://fakerphp.org/) for data generation
 * Data is **returned via API response** only (does not save to DB by default)
-* You can extend `MockDataManagement.php` to insert generated entities into Magento DB
+* You can extend `MockDataRepository.php` to insert generated entities into Magento DB
 
 ---
 

@@ -4,11 +4,6 @@ schema {
 }
 
 type Query {
-  # Simple example - returns a string greeting
-  hello(name: String): String
-    @resolver(class: "SMG\\MockDataGenerator\\Model\\Resolver\\Hello")
-    @doc(description: "Return a greeting message.")
-
     # Product
     MockDataProduct(
         numberOfItems: Int! @doc(description: "Number of items to be generate.")
@@ -79,7 +74,7 @@ type MockDataCustomerItem {
     testAddress: [String]
 }
 
-type MockDataCustomerAddress{
+type MockDataCustomerAddress {
     id: Int
     customer_id: Int
     country_id: String

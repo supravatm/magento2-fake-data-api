@@ -2,7 +2,6 @@
   "name": "supravatm/magento2-module-fake-data-api",
   "description": "A lightweight and non-intrusive(no DB bloat unless you extend it to save) Magento 2 module to generate fake customers, products, and orders via GraphQL & REST APIs.",
   "type": "magento2-module",
-  "version": "1.0.0",
   "license": [
         "MIT"
     ],

@@ -14,7 +14,7 @@ Useful when:
 
 * Generate **Customers, Products, and Orders** with one API call
 * Supports **REST (`/V1/mockdata/generate`)** and **GraphQL**
-* Customizable `entity` and `count` parameters
+* Customizable `entity` and `numberOfItems` parameters
 * Lightweight and non-intrusive (no DB bloat unless you extend it to save)
 
 ---
@@ -323,15 +323,6 @@ POST /rest/V1/mockdata/generate
 * Uses [FakerPHP](https://fakerphp.org/) for data generation
 * Data is **returned via API response** only (does not save to DB by default)
 * You can extend `MockDataRepository.php` to insert generated entities into Magento DB
-
----
-
-## 📌 Roadmap
-
-* [ ] Add `category` mock generator
-* [ ] Add option to **persist data in Magento DB**
-* [ ] Add configurable attributes (stock qty, order status, tax classes)
-* [ ] Add `faker` locale support (multi-language data)
 
 ---
 

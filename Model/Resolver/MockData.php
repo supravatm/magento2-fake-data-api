@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Package:  SMG_MockDataGenerator
  * Author: Supravat Mondal <supravat.com@gmail.com>
@@ -15,7 +16,8 @@ use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use SMG\MockDataGenerator\Api\MockDataManagementInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Psr\Log\LoggerInterface;
-use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 
 class MockData implements ResolverInterface
 {
@@ -67,9 +69,22 @@ class MockData implements ResolverInterface
     ) {
         // Read query endpoint name
         $entity = $field->getName();
-        $this->logger->info("<entity>><>". $entity);
-        // Read query args
-        $pageSize = $args['numberOfItems'];
+
+        // Extract numberOfItems argument
+        $pageSize = (int) ($args['numberOfItems'] ?? 0);
+
+        // Check max limit of numberOfItems
+        if ($pageSize > 1000) {
+            throw new GraphQlInputException(
+                __("The 'numberOfItems' argument cannot exceed 1000. Given: %1", $pageSize)
+            );
+        }
+
+        if ($pageSize <= 0) {
+            throw new GraphQlInputException(
+                __("The 'numberOfItems' argument must be greater than 0. Given: %1", $pageSize)
+            );
+        }
 
         // Map GraphQL field names to service methods
         $map = [
@@ -78,10 +93,13 @@ class MockData implements ResolverInterface
             'MockDataCustomer' => 'customer'
         ];
         if (!isset($map[$entity])) {
-            throw new \NoSuchEntityException("Unknown resolver field: " . $entity);
+            $this->logger->error(sprintf("GraphQL Resolver error: Unknown entity '%s'", $entity));
+            throw new GraphQlNoSuchEntityException(
+                __('The requested resource could not be resolved.')
+            );
         }
         $entityName = $map[$entity];
-        $this->logger->info("<>><entityName>". $entityName);
+
         $searchCriteria = $this->searchCriteriaBuilder
             ->setPageSize($pageSize)
             ->create();

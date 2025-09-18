@@ -21,29 +21,30 @@ Useful when:
 
 ## 📦 Installation
 
-1. Clone this repository inside `app/code/`:
 
-    #### Composer
-    ```bash
-      composer require --dev supravatm/module-mock-data-generator
-      bin/magento module:enable Supravatm_MockDataGenerator
-      bin/magento setup:upgrade
-    ```
+
+#### Install via Composer (recommended)
+
+If your module is published on [Packagist](), you can install it directly:
+
+```bash
+  composer require --dev supravatm/magento2-module-fake-data-api
+  bin/magento module:enable SMG_MockDataGenerator
+  bin/magento setup:upgrade
+```
+>Preferred way : easier upgrades, dependency management, Packagist support.
   
-    #### Manual
-    ```bash
-    mkdir -p app/code/SMG
-    cd app/code/SMG
-    git clone https://github.com/supravatm/magento2-fake-data-api.git MockDataGenerator
-    ```
+#### Manual Installation (alternative)
+Download the module `.zip` or clone the repo. Extract it into Magento’s `app/code` directory:
 
-2. Enable the module:
-
-   ```bash
-   bin/magento module:enable SMG_MockDataGenerator
-   bin/magento setup:upgrade
-   bin/magento cache:flush
-   ```
+```bash
+mkdir -p app/code/SMG
+cd app/code/SMG
+git clone git@github.com:supravatm/magento2-fake-data-api.git MockDataGenerator
+bin/magento module:enable SMG_MockDataGenerator
+bin/magento setup:upgrade
+bin/magento cache:flush
+```
 
 ---
 

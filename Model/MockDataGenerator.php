@@ -39,8 +39,8 @@ class MockDataGenerator
         $faker = $this->fakerFactory->create("'en_US'");
         $order = [];
         for ($i = 0; $i < $numberOfItems; $i++) {
-            $orderId     = $faker->unique()->numberBetween(1000, 99999);
-            $customerId  = $faker->unique()->numberBetween(1, 5000);
+            $orderId     = $faker->unique()->numberBetween(1, 1000);
+            $customerId  = $faker->numberBetween(1, 5000);
             $qty         = $faker->numberBetween(1, 5);
             $price       = $faker->randomFloat(2, 10, 500);
             $rowTotal    = $qty * $price;
@@ -48,10 +48,10 @@ class MockDataGenerator
             $grandTotal  = $rowTotal + $tax;
 
             $item = [
-                'item_id'                => $faker->unique()->numberBetween(2000, 9999),
+                'item_id'                => $faker->numberBetween(2000, 9999),
                 'sku'                    => strtoupper($faker->bothify('SKU-###??')),
                 'name'                   => $this->productName(),
-                'product_id'             => $faker->unique()->numberBetween(100, 999),
+                'product_id'             => $faker->numberBetween(100, 999),
                 'qty_ordered'            => $qty,
                 'price'                  => $price,
                 'base_price'             => $price,
